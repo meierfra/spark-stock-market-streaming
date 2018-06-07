@@ -27,18 +27,20 @@ SYMBOLS = ["TSLA", "AAPL", "MSFT", "MCD", "NKE", "PFE", "FB", "GOOGL", "GS", "LM
 #
 
 
-def simple_test():
-    query_url = 'https://www.alphavantage.co/query?datatype=json&function=TIME_SERIES_INTRADAY&symbol=' + SYMBOLS[0] + '&interval=1min&apikey=' + API_KEY
+def simple_test(symbol):
+    query_url = 'https://www.alphavantage.co/query?datatype=json&function=TIME_SERIES_INTRADAY&symbol=' + symbol + '&interval=1min&apikey=' + API_KEY
     r = requests.get(query_url)
     print("status: {}".format(r.status_code))
-    resp_json = r.json()
-    print(json.dumps(resp_json, indent=1))
-    # print(json.dumps(list(resp_json.get("Time Series (1min)").items())[0], indent=1))
+    print(r.text)
+    #resp_json = r.json()
+    #print(json.dumps(resp_json, indent=1))
+    #print(json.dumps(list(resp_json.get("Time Series (1min)").items())[0], indent=1))
 
 
 def batch_test():
     print(api.get_batch_stock_quotes(SYMBOLS))
 
 
-# simple_test()
-batch_test()
+simple_test("FB")
+
+# batch_test()

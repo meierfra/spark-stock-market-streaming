@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "298.3300",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:33:20"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "193.7500",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:33:25"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "102.4150",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:33:25"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "159.5400",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:32:42"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.3500",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:33:13"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.3700",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:33:21"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "192.4000",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:33:22"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1154.0400",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:30:02"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "228.3000",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-05 15:59:46"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "321.6300",
+            "3. volume": "--",
+            "4. timestamp": "2018-06-06 09:31:03"
+        }
+    ]
+}
