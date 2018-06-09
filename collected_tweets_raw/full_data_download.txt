@@ -1,0 +1,2 @@
+Drei Tage tweets, ein JSON pro tweet
+https://inforel1.nine.ch/tweet_data_20180606-20180609.zip
