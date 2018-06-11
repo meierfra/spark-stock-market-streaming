@@ -77,17 +77,16 @@ def transDF(df, stamp, header):
     df['year'] = df['stamp'].dt.year
     df['month'] = df['stamp'].dt.month
     df['day'] = df['stamp'].dt.day
-    df['hour'] = df['stamp'].dt.hour
-    df['minute'] = df['stamp'].dt.minute
-    df['second'] = df['stamp'].dt.second
+    df['time'] = df['stamp'].dt.time
     # Drop unneeded columns
     df.drop([stamp], axis=1, inplace=True)
     # Set dataframe index
-    df.set_index('stamp', inplace=True)
+    df.set_index(['year', 'month', 'day', 'time'], inplace=True)
     # Rename columns
     df.rename(columns=header, inplace=True)
     # Drop duplicates
     df.drop_duplicates(inplace=True)
+    df.sort_index(inplace=True)
     return df
 
 '''Get and pre-process data'''
@@ -143,12 +142,12 @@ def update_stock_graph(value):
     # Loop the available stocks to produce a trace for each stock
     for i in range(len(value)):
         df_stock = dfss[dfss['sym'] == value[i]]
-        X = df_stock.index
+        X = df_stock.index.get_level_values('time')
         Y = df_stock['$']
         # Create an individual trace
         trace = go.Scatter(x = X,
                            y = Y,
-                           mode = 'markers',
+                           mode = 'lines+markers',
                            name = value[i])
         # Append to the list of traces
         traces.append(trace)
@@ -158,7 +157,9 @@ def update_stock_graph(value):
     stock_fig = {'data':traces,
                  'layout': go.Layout(title=title_stock,
                            xaxis=dict(title='Timestamp',
-                                      tickformat='%H:%M:%S'),
+                                      tickformat='%H:%M:%S',
+                                      tickmode='auto',
+                                      nticks=10),
                            yaxis=dict(title='Price'),
                            hovermode='closest')
                     }
