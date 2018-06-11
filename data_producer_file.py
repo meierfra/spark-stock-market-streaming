@@ -52,7 +52,7 @@ def dump_quotes(quotes):
             json.dump(q, f)
 
 
-for filename in glob.glob(COLLECT_DIR + "/" + GLOB):
+for filename in sorted(glob.glob(COLLECT_DIR + "/" + GLOB)):
     with open(filename) as f:
         data = json.load(f)
         print("extract and dump data from: {}".format(filename))
