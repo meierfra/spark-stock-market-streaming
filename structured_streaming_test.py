@@ -28,15 +28,6 @@ print(json_schema)
 streamingInputDF = spark.readStream.option("multiline", "true").schema(json_schema).json(inputPath)
 print("isStreaming: {}".format(streamingInputDF.isStreaming))
 
-# windowedStream = streamingInputDF.groupBy(window("timestamp", "1 seconds", "1 seconds"))
-# agregationsStream = windowedStream.agg(avg("price"))
-# streamingQuery = agregationsStream \
-#     .select("*") \
-#     .writeStream \
-#     .format("memory") \
-#     .queryName("quotestream") \
-#     .outputMode("complete")\
-#     .start()
 
 quotesStreamQuery = streamingInputDF \
     .where("symbol = 'TSLA'").select("*") \
@@ -49,42 +40,63 @@ quotesStreamQuery = streamingInputDF \
 quotesDF = spark.sql("SELECT timestamp, symbol, price FROM quotestream ORDER BY timestamp")
 
 
-statStreamQuery = streamingInputDF \
+# statStreamQuery = streamingInputDF \
+#     .where("symbol = 'TSLA'") \
+#     .groupby("symbol").agg(max("timestamp").alias('actual_timestamp'),
+#                            avg("price").alias("price_avg"),
+#                            max("price").alias("price_max"),
+#                            min("price").alias("price_min")) \
+#     .writeStream \
+#     .format("memory") \
+#     .queryName("statstream") \
+#     .outputMode("complete")\
+#     .start()
+#
+# statisticsDF = spark.sql("SELECT *, price_max-price_min as price_diff FROM statstream")
+
+
+windowedStreamQuery = streamingInputDF \
     .where("symbol = 'TSLA'") \
-    .groupby("symbol").agg(max("timestamp").alias('actual_timestamp'),
-                           avg("price").alias("price_avg"),
-                           max("price").alias("price_max"),
-                           min("price").alias("price_min")) \
+    .groupBy("symbol", window("timestamp", "3600 seconds", "600 seconds")) \
+    .agg(max("timestamp").alias("timestamp_max"),
+         min("timestamp").alias("timestamp_min"),
+         avg("price").alias("price_avg"),
+         max("price").alias("price_max"),
+         min("price").alias("price_min")) \
+    .orderBy(desc("window")) \
     .writeStream \
     .format("memory") \
-    .queryName("statstream") \
+    .queryName("windowedstream") \
     .outputMode("complete")\
     .start()
 
-statisticsDF = spark.sql("SELECT *, price_max-price_min as price_diff FROM statstream")
+windowedDF = spark.sql("SELECT * FROM windowedstream")
 
 
-joinedDF = quotesDF.join(statisticsDF, 'symbol') \
-    .select("timestamp", "symbol", "price", "price_avg", "price_min", "price_max", "price_diff") \
+# joinedDF = quotesDF.join(statisticsDF, 'symbol') \
+#     .select("timestamp", "symbol", "price", "price_avg", "price_min", "price_max", "price_diff") \
+#     .orderBy(desc("timestamp"))
+
+
+joinedDF = quotesDF.join(windowedDF, expr('quotestream.symbol = windowedstream.symbol AND quotestream.timestamp = windowedstream.timestamp_max')) \
+    .select("timestamp", "quotestream.symbol", "price", "price_avg", "price_min", "price_max") \
     .orderBy(desc("timestamp"))
 
 
-# windowDF = joinedDF.groupBy(window("timestamp", "10 minutes", "60 seconds")).count()
-
 # while True:
 for _ in range(10):
-
     quotesDF.show(10)
-    statisticsDF.show(10)
-    # joinedDF.show()
+    # statisticsDF.show(10)
+    windowedDF.show(10, False)
+    joinedDF.show(10)
 
-    timestampMax = quotesDF.select(max('timestamp')).collect()[0][0]
+    timestampMax = joinedDF.select(max('timestamp')).collect()[0][0]
     print(timestampMax)
     if timestampMax:
-        cutoffTime = timestampMax - datetime.timedelta(hours=10)
+        cutoffTime = timestampMax - datetime.timedelta(hours=5)
         outputDF = joinedDF.where("timestamp > '{}'".format(cutoffTime))
         # outputDF = joinedDF
-        outputDF.show()
+        # outputDF.show()
 
         outputPandasDF = outputDF.toPandas()
         outputPandasDF.index = outputPandasDF['timestamp']
@@ -93,7 +105,8 @@ for _ in range(10):
         outputPandasDF[['price', 'price_avg', 'price_max', 'price_min']].plot()
         plt.pause(0.1)
 
-    time.sleep(5)
+    time.sleep(10)
 
 # outputPandasDF[['price', 'price_avg', 'price_max', 'price_min']].plot()
-plt.show()
+input("FINISHED (press enter)")
+# plt.show()
