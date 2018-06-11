@@ -14,7 +14,7 @@ import time
 
 COLLECT_DIR = './collected_data'
 #GLOB = "*.json"
-GLOB = "20180606-17*.json"
+GLOB = "20180606-*.json"
 #GLOB = "*.json"
 
 
@@ -23,7 +23,10 @@ def norm_quote_key(key):
 
 
 def quote_proc(quote):
-    return {norm_quote_key(k): v for k, v in quote.items()}
+    quote = {norm_quote_key(k): v for k, v in quote.items()}
+    quote['price'] = float(quote.get('price'))
+    #quote['volume'] = float(quote.get('volume'))
+    return quote
 
 
 def extract_quotes(data):
