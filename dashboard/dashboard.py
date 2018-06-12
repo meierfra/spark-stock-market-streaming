@@ -15,6 +15,7 @@ Callback Dash Layouts and visualize the data
 
 ToDo
     Secondary x-axis? Better format? Spacing?
+    Add Summary of data to the top of the app
 """
 import pandas as pd
 import dash
@@ -26,7 +27,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 import datetime as dt
-import numpy as np
 
 '''Directories and Files'''
 # Home directory
@@ -203,9 +203,10 @@ def update_stock_graph(stock_sel, date_sel):
     stock_fig = {'data':traces,
                  'layout': go.Layout(title=title_stock,
                            xaxis=dict(title='Timestamp',
-                                      tickformat='%H:%M:%S',
                                       tickmode='auto',
-                                      nticks=10),
+                                      nticks=10,
+                                      tickformat='%H:%M'
+                                      ),
                            yaxis=dict(title='Price'),
                            hovermode='closest')
                     }
