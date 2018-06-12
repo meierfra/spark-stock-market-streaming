@@ -15,6 +15,8 @@ import time
 COLLECT_DIR = './collected_data'
 #GLOB = "*.json"
 GLOB = "20180606-*.json"
+FILE_PATTERN = ".*/\d+-(1[789]|2)\d+\.json$"
+#FILE_PATTERN = ".*\.json"
 #GLOB = "*.json"
 
 
@@ -53,9 +55,10 @@ def dump_quotes(quotes):
 
 
 for filename in sorted(glob.glob(COLLECT_DIR + "/" + GLOB)):
-    with open(filename) as f:
-        data = json.load(f)
-        print("extract and dump data from: {}".format(filename))
-        quotes = extract_quotes(data)
-        dump_quotes(quotes)
-    time.sleep(1)
+    if re.match(FILE_PATTERN, filename):
+        with open(filename) as f:
+            data = json.load(f)
+            print("extract and dump data from: {}".format(filename))
+            quotes = extract_quotes(data)
+            dump_quotes(quotes)
+        time.sleep(1)

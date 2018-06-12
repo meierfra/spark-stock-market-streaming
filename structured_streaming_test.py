@@ -28,9 +28,13 @@ print(json_schema)
 streamingInputDF = spark.readStream.option("multiline", "true").schema(json_schema).json(inputPath)
 print("isStreaming: {}".format(streamingInputDF.isStreaming))
 
+# SYMBOL = 'AAPL'
+# SYMBOL = 'GOOGL'
+SYMBOL='TSLA'
+
 
 quotesStreamQuery = streamingInputDF \
-    .where("symbol = 'TSLA'").select("*") \
+    .where("symbol = '{}'".format(SYMBOL)).select("*") \
     .writeStream \
     .format("memory") \
     .queryName("quotestream") \
@@ -41,7 +45,7 @@ quotesDF = spark.sql("SELECT timestamp, symbol, price FROM quotestream ORDER BY 
 
 
 # statStreamQuery = streamingInputDF \
-#     .where("symbol = 'TSLA'") \
+#     .where("symbol = '{}'".format(SYMBOL)) \
 #     .groupby("symbol").agg(max("timestamp").alias('actual_timestamp'),
 #                            avg("price").alias("price_avg"),
 #                            max("price").alias("price_max"),
@@ -56,7 +60,7 @@ quotesDF = spark.sql("SELECT timestamp, symbol, price FROM quotestream ORDER BY 
 
 
 windowedStreamQuery = streamingInputDF \
-    .where("symbol = 'TSLA'") \
+    .where("symbol = '{}'".format(SYMBOL)) \
     .groupBy("symbol", window("timestamp", "3600 seconds", "600 seconds")) \
     .agg(max("timestamp").alias("timestamp_max"),
          min("timestamp").alias("timestamp_min"),
@@ -84,7 +88,7 @@ joinedDF = quotesDF.join(windowedDF, expr('quotestream.symbol = windowedstream.s
 
 
 # while True:
-for _ in range(10):
+for _ in range(3):
     quotesDF.show(10)
     # statisticsDF.show(10)
     windowedDF.show(10, False)
