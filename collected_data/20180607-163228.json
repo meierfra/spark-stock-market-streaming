@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "325.3600",
+            "3. volume": "6088759",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "193.0200",
+            "3. volume": "4361846",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.5600",
+            "3. volume": "4127925",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.5300",
+            "3. volume": "1190546",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "75.8100",
+            "3. volume": "1229655",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.4500",
+            "3. volume": "2630053",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "187.5600",
+            "3. volume": "7152181",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1133.2600",
+            "3. volume": "407195",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "234.9350",
+            "3. volume": "753200",
+            "4. timestamp": "2018-06-07 10:32:28"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "321.3900",
+            "3. volume": "125236",
+            "4. timestamp": "2018-06-07 10:32:13"
+        }
+    ]
+}

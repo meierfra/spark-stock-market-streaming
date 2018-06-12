@@ -100,7 +100,7 @@ for _ in range(3):
         cutoffTime = timestampMax - datetime.timedelta(hours=5)
         outputDF = joinedDF.where("timestamp > '{}'".format(cutoffTime))
         # outputDF = joinedDF
-        # outputDF.show()
+        outputDF.show()
 
         outputPandasDF = outputDF.toPandas()
         outputPandasDF.index = outputPandasDF['timestamp']

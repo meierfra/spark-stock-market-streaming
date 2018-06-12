@@ -15,8 +15,8 @@ import time
 COLLECT_DIR = './collected_data'
 #GLOB = "*.json"
 GLOB = "20180606-*.json"
-FILE_PATTERN = ".*/\d+-(1[789]|2)\d+\.json$"
-#FILE_PATTERN = ".*\.json"
+#FILE_PATTERN = ".*/\d+-(1[789]|2)\d+\.json$"
+FILE_PATTERN = ".*\.json"
 #GLOB = "*.json"
 
 
