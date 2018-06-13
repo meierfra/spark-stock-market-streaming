@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "341.8000",
+            "3. volume": "20585802",
+            "4. timestamp": "2018-06-12 15:19:51"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "191.7100",
+            "3. volume": "12667487",
+            "4. timestamp": "2018-06-12 15:19:51"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.1750",
+            "3. volume": "12578478",
+            "4. timestamp": "2018-06-12 15:19:50"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.7250",
+            "3. volume": "2077022",
+            "4. timestamp": "2018-06-12 15:19:23"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.1750",
+            "3. volume": "2926766",
+            "4. timestamp": "2018-06-12 15:19:50"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.2900",
+            "3. volume": "10759355",
+            "4. timestamp": "2018-06-12 15:19:50"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "192.0500",
+            "3. volume": "9444216",
+            "4. timestamp": "2018-06-12 15:19:51"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1144.3250",
+            "3. volume": "826356",
+            "4. timestamp": "2018-06-12 15:19:22"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "232.5250",
+            "3. volume": "1397937",
+            "4. timestamp": "2018-06-12 15:18:57"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "315.4400",
+            "3. volume": "1271928",
+            "4. timestamp": "2018-06-12 15:19:50"
+        }
+    ]
+}

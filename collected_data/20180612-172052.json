@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "346.1500",
+            "3. volume": "7501763",
+            "4. timestamp": "2018-06-12 11:20:51"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "191.3600",
+            "3. volume": "5396859",
+            "4. timestamp": "2018-06-12 11:20:52"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.0550",
+            "3. volume": "5510122",
+            "4. timestamp": "2018-06-12 11:20:49"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.4300",
+            "3. volume": "897616",
+            "4. timestamp": "2018-06-12 11:20:52"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.2450",
+            "3. volume": "1187627",
+            "4. timestamp": "2018-06-12 11:20:24"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.2050",
+            "3. volume": "4091404",
+            "4. timestamp": "2018-06-12 11:20:52"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "191.9900",
+            "3. volume": "3810908",
+            "4. timestamp": "2018-06-12 11:20:49"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1143.0000",
+            "3. volume": "412814",
+            "4. timestamp": "2018-06-12 11:18:41"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "232.7600",
+            "3. volume": "536440",
+            "4. timestamp": "2018-06-12 11:20:43"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "314.9650",
+            "3. volume": "624682",
+            "4. timestamp": "2018-06-12 11:20:37"
+        }
+    ]
+}

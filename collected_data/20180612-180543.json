@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "349.9200",
+            "3. volume": "9386118",
+            "4. timestamp": "2018-06-12 12:05:26"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "191.7100",
+            "3. volume": "6611253",
+            "4. timestamp": "2018-06-12 12:05:40"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.3450",
+            "3. volume": "6792000",
+            "4. timestamp": "2018-06-12 12:05:41"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.5300",
+            "3. volume": "1123575",
+            "4. timestamp": "2018-06-12 12:05:36"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.3900",
+            "3. volume": "1620216",
+            "4. timestamp": "2018-06-12 12:05:19"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.2800",
+            "3. volume": "5523106",
+            "4. timestamp": "2018-06-12 12:05:34"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "192.5600",
+            "3. volume": "4713056",
+            "4. timestamp": "2018-06-12 12:05:41"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1145.8400",
+            "3. volume": "500339",
+            "4. timestamp": "2018-06-12 12:05:25"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "233.1700",
+            "3. volume": "696848",
+            "4. timestamp": "2018-06-12 12:05:26"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "315.7200",
+            "3. volume": "745423",
+            "4. timestamp": "2018-06-12 12:05:30"
+        }
+    ]
+}
