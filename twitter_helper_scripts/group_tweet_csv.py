@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 
 data = pd.read_csv('tweets.csv', sep=';', index_col='timestamp', parse_dates=True)
 grouped_data = data.groupby("hashtag").resample("1H", how="sum")

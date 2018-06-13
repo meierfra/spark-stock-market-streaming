@@ -49,7 +49,9 @@ with open("tweets.csv", "w") as out:
             follower_cnt = tweet['user']['followers_count']
             timestamp = tweet['created_at']
 
-            ts = time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(timestamp,'%a %b %d %H:%M:%S +0000 %Y'))
+            orig_time = time.strptime(timestamp,'%a %b %d %H:%M:%S +0000 %Y')
+            epoch_with_timezone_corr = time.mktime(orig_time) - (6*60*60)
+            ts = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(epoch_with_timezone_corr))
 
             log_val = 0
             if follower_cnt > 0:
