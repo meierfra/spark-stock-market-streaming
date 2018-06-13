@@ -14,8 +14,11 @@ Transform and aggregate dataframes as needed
 Callback Dash Layouts and visualize the data 
 
 ToDo
-    Secondary x-axis? Better format? Spacing?
+    Average price per day chart
     Add Summary of data to the top of the app
+    Drop rows on tweets for timestamps out of stock time range, or adjust x-axis range
+    For tweets, plot count of tweets per minute?
+    Scatter log follower count vs stock price?
 """
 import pandas as pd
 import dash
@@ -29,12 +32,16 @@ import plotly.graph_objs as go
 import datetime as dt
 
 '''Directories and Files'''
-# Home directory
-home_dir = os.path.expanduser(r'~/Documents/ZHAW/MAIN/04_Big_Data/30_Project/')
-# Stock market data directory
-stock_dir = r'spark-stock-market-streaming/collected_data/'
-# Tweet data directory
-tweet_dir = r'???'
+# Windows workstation
+if os.name == 'nt':
+    home_dir = r'//userhome/users$/ksagilop/home/ZHAW/MAIN/04_Big_Data/'
+    stock_dir = r'spark-stock-market-streaming/collected_data/'
+    tweet_dir = r'spark-stock-market-streaming/collected_tweets_csv_raw/'
+# Linux workstation
+else:
+    home_dir = os.path.expanduser(r'~/Documents/ZHAW/MAIN/04_Big_Data/30_Project/')
+    stock_dir = r'spark-stock-market-streaming/collected_data/'
+    tweet_dir = r'???'
 
 '''Data Features '''
 # Stock Names
@@ -97,8 +104,6 @@ def transDF(df, stamp, header, names):
     df['stamp'] = pd.to_datetime(df[stamp])
     df['date'] = df['stamp'].dt.date
     df['time'] = df['stamp'].dt.time
-    # Drop unneeded columns
-    df.drop([stamp], axis=1, inplace=True)
     # Set dataframe index
     df.set_index(['date', 'time'], inplace=True)
     # Rename columns
@@ -113,8 +118,31 @@ def transDF(df, stamp, header, names):
         df.loc[mask, 'sym'] = value + ', ' + '(' + key + ')'
     return df
 
+''' Build Dataframe from csv file '''
+def buildDFbis(base_dir, data_dir):
+    '''Construct a big dataframe by aggregating the individual csv files
+    located at the proper data directory
+    Args:
+        base_dir(str), the home or base directory
+        data_dir(str), the directory containing the data
+    return:
+        df(dataframe), full dataframe iaw csv structure'''
+    folder = os.path.join(base_dir + data_dir)
+    files = os.listdir(folder)
+    file_path = os.path.join(folder + files[0])
+    # Dataframe
+    df = pd.read_csv(file_path,
+                     sep=';',
+                     parse_dates={'stamp':['timestamp']},
+                     keep_date_col=False)
+    df['date'] = df['stamp'].dt.date
+    df['time'] = df['stamp'].dt.time
+    df.set_index(['date', 'time'], inplace=True)
+    return df
+
 '''Load data'''
 dfs = buildDF(home_dir, stock_dir, 'Stock Quotes')
+dft = buildDFbis(home_dir, tweet_dir)
 
 ''' Data Preprocessing '''
 dfss = transDF(dfs, stamp_name, header_names, stock_names)
@@ -125,6 +153,7 @@ available_dates = dfss.index.get_level_values('date').unique()
 available_times = dfss.index.get_level_values('time').unique()
 min_time = dfss.index.get_level_values('time').min()
 max_time = dfss.index.get_level_values('time').max()
+available_tags = dft.hashtag.unique()
 
 ''' Dash '''
 app = dash.Dash()
@@ -143,11 +172,25 @@ app.layout = html.Div([
                     dcc.Dropdown(
                                 id='stock_selection',
                                 options=[{'label':i, 'value':i} for i in available_stocks],
-                                value=[],
+                                value=[available_stocks[0]],
                                 multi=True
                                     )
                     ],
-                    style={'width':'100%', 'display':'inline-block'},
+                    style={'width':'60%'},
+                    className='row'
+                            ),
+    
+            html.Div(
+                [
+                    html.P('Select Hashtag(s):'),
+                    dcc.Dropdown(
+                                id='tag_selection',
+                                options=[{'label':i, 'value':i} for i in available_tags],
+                                value=[available_tags[0]],
+                                multi=True
+                                    )
+                    ],
+                    style={'width':'45%', 'display':'inline-block'},
                     className='row'
                             ),
     
@@ -161,7 +204,7 @@ app.layout = html.Div([
                                 multi=False
                                     ),
                     ],
-                    style={'width':'25%', 'display':'inline-block'}),
+                    style={'width':'15%', 'display':'inline-block'}),
             
             html.Div([dcc.Graph(id='stock_graph')]), 
             
@@ -176,19 +219,22 @@ app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/brPBPO.css"
 @app.callback(
         Output(component_id='stock_graph', component_property='figure'),
         [Input(component_id='stock_selection', component_property='value'),
-         Input(component_id='date_selection', component_property='value')
+         Input(component_id='date_selection', component_property='value'),
+         Input(component_id='tag_selection', component_property='value')
          ],
         )
 
-def update_stock_graph(stock_sel, date_sel):
+def update_stock_graph(stock_sel, date_sel, tag_sel):
     # List of traces
     traces = []
     # Reduce the dataframe to the day selected
     df_day = dfss.loc[date_sel]
+    dft_day = dft.loc[date_sel]
     # Loop the available stocks to produce a trace for each stock
     for i in range(len(stock_sel)):
         df_stock = df_day[df_day['sym'] == stock_sel[i]]
-        X = df_stock.index.get_level_values('time')
+        #X = df_stock.index.get_level_values('time') # Get from multiindex
+        X = df_stock['stamp']
         Y = df_stock['$']
         # Create an individual trace
         trace = go.Scatter(x = X,
@@ -197,17 +243,36 @@ def update_stock_graph(stock_sel, date_sel):
                            name = stock_sel[i])
         # Append to the list of traces
         traces.append(trace)
+    
+    # Loop the available tags to produce a trace for each tag
+    for i in range(len(tag_sel)):
+        df_tweet = dft_day[dft_day['hashtag'] == tag_sel[i]]
+        X_tweet = df_tweet['stamp']
+        Y_tweet = df_tweet['log_followers_count']
+        # Create an individual trace
+        trace_tweet = go.Scatter(x = X_tweet,
+                                 y = Y_tweet,
+                                 mode = 'lines+markers',
+                                 name = tag_sel[i],
+                                 yaxis='y2')
+        # Append to the list of traces
+        traces.append(trace_tweet)
         
-    title_stock = 'Stock Market Price'
+    title_stock = 'Stock Price & Tweets'
     
     stock_fig = {'data':traces,
                  'layout': go.Layout(title=title_stock,
-                           xaxis=dict(title='Timestamp',
+                           xaxis=dict(title='Timestamp (Hour)',
+                                      type='date',
                                       tickmode='auto',
-                                      nticks=10,
+                                      nticks=12,
                                       tickformat='%H:%M'
-                                      ),
+                                          ),
                            yaxis=dict(title='Price'),
+                           yaxis2=dict(title='Log Follower count',
+                                       overlaying='y',
+                                       side='right'
+                                           ),
                            hovermode='closest')
                     }
 
