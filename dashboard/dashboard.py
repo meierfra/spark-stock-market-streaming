@@ -19,6 +19,8 @@ ToDo
     Drop rows on tweets for timestamps out of stock time range, or adjust x-axis range
     For tweets, plot count of tweets per minute?
     Scatter log follower count vs stock price?
+    Histogram or bars instead of line for log_follower_count grouped by
+    Input for size of round, 5 Min, 10 Min, etc
 """
 import pandas as pd
 import dash
@@ -38,10 +40,10 @@ if os.name == 'nt':
     stock_dir = r'spark-stock-market-streaming/collected_data/'
     tweet_dir = r'spark-stock-market-streaming/collected_tweets_csv_raw/'
 # Linux workstation
-else:
+if os.name == 'posix':
     home_dir = os.path.expanduser(r'~/Documents/ZHAW/MAIN/04_Big_Data/30_Project/')
     stock_dir = r'spark-stock-market-streaming/collected_data/'
-    tweet_dir = r'???'
+    tweet_dir = r'spark-stock-market-streaming/collected_tweets_csv_raw/'
 
 '''Data Features '''
 # Stock Names
@@ -147,6 +149,16 @@ dft = buildDFbis(home_dir, tweet_dir)
 ''' Data Preprocessing '''
 dfss = transDF(dfs, stamp_name, header_names, stock_names)
 
+''' Additional Transformations '''
+# Min and max timestamps on stock data
+stock_hr_min = dfss.index.get_level_values('time').min()
+stock_hr_max = dfss.index.get_level_values('time').max()
+# Construct masks and select data
+mask_hr_min = dft.index.get_level_values('time') > stock_hr_min
+dft = dft.loc[mask_hr_min]
+mask_hr_max = dft.index.get_level_values('time') < stock_hr_max
+dft = dft.loc[mask_hr_max]
+
 ''' Create Controls '''
 available_stocks = dfss['sym'].unique()
 available_dates = dfss.index.get_level_values('date').unique()
@@ -230,6 +242,8 @@ def update_stock_graph(stock_sel, date_sel, tag_sel):
     # Reduce the dataframe to the day selected
     df_day = dfss.loc[date_sel]
     dft_day = dft.loc[date_sel]
+    # Round time to aggregate tweets
+    dft_day['stamp_round'] = dft_day.stamp.dt.round('1Min')
     # Loop the available stocks to produce a trace for each stock
     for i in range(len(stock_sel)):
         df_stock = df_day[df_day['sym'] == stock_sel[i]]
@@ -247,13 +261,15 @@ def update_stock_graph(stock_sel, date_sel, tag_sel):
     # Loop the available tags to produce a trace for each tag
     for i in range(len(tag_sel)):
         df_tweet = dft_day[dft_day['hashtag'] == tag_sel[i]]
-        X_tweet = df_tweet['stamp']
-        Y_tweet = df_tweet['log_followers_count']
+        
+        Y_tweet = df_tweet.groupby(['stamp_round'])['log_followers_count'].sum()
+        X_tweet = Y_tweet.index
+        
         # Create an individual trace
-        trace_tweet = go.Scatter(x = X_tweet,
+        trace_tweet = go.Bar(x = X_tweet,
                                  y = Y_tweet,
-                                 mode = 'lines+markers',
                                  name = tag_sel[i],
+                                 opacity=0.5,
                                  yaxis='y2')
         # Append to the list of traces
         traces.append(trace_tweet)
