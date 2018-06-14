@@ -50,7 +50,7 @@ with open("tweets.csv", "w") as out:
             timestamp = tweet['created_at']
 
             orig_time = time.strptime(timestamp,'%a %b %d %H:%M:%S +0000 %Y')
-            epoch_with_timezone_corr = time.mktime(orig_time) - (6*60*60)
+            epoch_with_timezone_corr = time.mktime(orig_time) - (4*60*60)
             ts = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(epoch_with_timezone_corr))
 
             log_val = 0
