@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "358.5500",
+            "3. volume": "10559251",
+            "4. timestamp": "2018-06-14 15:58:06"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "190.7600",
+            "3. volume": "17174913",
+            "4. timestamp": "2018-06-14 15:58:06"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.3600",
+            "3. volume": "19200868",
+            "4. timestamp": "2018-06-14 15:58:01"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "167.0850",
+            "3. volume": "1598892",
+            "4. timestamp": "2018-06-14 15:58:06"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.6500",
+            "3. volume": "3483680",
+            "4. timestamp": "2018-06-14 15:58:06"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.1700",
+            "3. volume": "14455632",
+            "4. timestamp": "2018-06-14 15:58:07"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "196.7800",
+            "3. volume": "15958611",
+            "4. timestamp": "2018-06-14 15:58:06"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1160.1500",
+            "3. volume": "1546056",
+            "4. timestamp": "2018-06-14 15:58:06"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "233.6400",
+            "3. volume": "2545937",
+            "4. timestamp": "2018-06-14 15:58:00"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "310.4900",
+            "3. volume": "1058766",
+            "4. timestamp": "2018-06-14 15:58:04"
+        }
+    ]
+}

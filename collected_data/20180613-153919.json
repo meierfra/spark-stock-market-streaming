@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "341.3300",
+            "3. volume": "1163137",
+            "4. timestamp": "2018-06-13 09:39:19"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "192.3600",
+            "3. volume": "925119",
+            "4. timestamp": "2018-06-13 09:39:19"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.4900",
+            "3. volume": "2507443",
+            "4. timestamp": "2018-06-13 09:39:19"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.9550",
+            "3. volume": "85173",
+            "4. timestamp": "2018-06-13 09:38:48"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.0500",
+            "3. volume": "162783",
+            "4. timestamp": "2018-06-13 09:39:19"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.3800",
+            "3. volume": "458410",
+            "4. timestamp": "2018-06-13 09:39:15"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "192.1700",
+            "3. volume": "645075",
+            "4. timestamp": "2018-06-13 09:39:18"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1148.1300",
+            "3. volume": "213302",
+            "4. timestamp": "2018-06-13 09:39:19"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "235.0300",
+            "3. volume": "181664",
+            "4. timestamp": "2018-06-13 09:39:17"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "313.4100",
+            "3. volume": "278007",
+            "4. timestamp": "2018-06-13 09:39:17"
+        }
+    ]
+}

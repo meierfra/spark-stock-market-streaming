@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "355.0300",
+            "3. volume": "7557769",
+            "4. timestamp": "2018-06-14 13:45:40"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "191.1200",
+            "3. volume": "12296493",
+            "4. timestamp": "2018-06-14 13:45:50"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.6750",
+            "3. volume": "13381017",
+            "4. timestamp": "2018-06-14 13:45:47"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "167.2600",
+            "3. volume": "980797",
+            "4. timestamp": "2018-06-14 13:45:50"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.7150",
+            "3. volume": "1941050",
+            "4. timestamp": "2018-06-14 13:45:46"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.1450",
+            "3. volume": "9248325",
+            "4. timestamp": "2018-06-14 13:45:45"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "196.9550",
+            "3. volume": "11247182",
+            "4. timestamp": "2018-06-14 13:45:50"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1165.0600",
+            "3. volume": "1040301",
+            "4. timestamp": "2018-06-14 13:45:50"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "234.3100",
+            "3. volume": "1874183",
+            "4. timestamp": "2018-06-14 13:45:50"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "310.9800",
+            "3. volume": "663424",
+            "4. timestamp": "2018-06-14 13:45:39"
+        }
+    ]
+}

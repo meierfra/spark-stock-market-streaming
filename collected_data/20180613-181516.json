@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "344.5600",
+            "3. volume": "5390967",
+            "4. timestamp": "2018-06-13 12:15:09"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "192.5700",
+            "3. volume": "6457007",
+            "4. timestamp": "2018-06-13 12:15:15"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.5900",
+            "3. volume": "10428048",
+            "4. timestamp": "2018-06-13 12:15:15"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "167.2800",
+            "3. volume": "985559",
+            "4. timestamp": "2018-06-13 12:14:07"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.6400",
+            "3. volume": "1406932",
+            "4. timestamp": "2018-06-13 12:15:15"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.4400",
+            "3. volume": "4989877",
+            "4. timestamp": "2018-06-13 12:15:15"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "193.5300",
+            "3. volume": "5776699",
+            "4. timestamp": "2018-06-13 12:15:15"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1148.9000",
+            "3. volume": "647631",
+            "4. timestamp": "2018-06-13 12:15:09"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "233.9600",
+            "3. volume": "964181",
+            "4. timestamp": "2018-06-13 12:15:09"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "317.2850",
+            "3. volume": "858973",
+            "4. timestamp": "2018-06-13 12:14:37"
+        }
+    ]
+}

@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "353.6700",
+            "3. volume": "3039653",
+            "4. timestamp": "2018-06-14 10:11:38"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "191.1100",
+            "3. volume": "4585829",
+            "4. timestamp": "2018-06-14 10:11:39"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "101.5050",
+            "3. volume": "4592840",
+            "4. timestamp": "2018-06-14 10:11:37"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "167.6950",
+            "3. volume": "368131",
+            "4. timestamp": "2018-06-14 10:11:32"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.9600",
+            "3. volume": "493387",
+            "4. timestamp": "2018-06-14 10:11:39"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.3250",
+            "3. volume": "2224710",
+            "4. timestamp": "2018-06-14 10:11:34"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "194.3600",
+            "3. volume": "2669840",
+            "4. timestamp": "2018-06-14 10:11:38"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1158.5700",
+            "3. volume": "330566",
+            "4. timestamp": "2018-06-14 10:11:25"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "234.3600",
+            "3. volume": "561131",
+            "4. timestamp": "2018-06-14 10:10:47"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "315.4950",
+            "3. volume": "140841",
+            "4. timestamp": "2018-06-14 10:11:35"
+        }
+    ]
+}
