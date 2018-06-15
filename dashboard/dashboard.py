@@ -15,12 +15,8 @@ Callback Dash Layouts and visualize the data
 
 ToDo
     Average price per day chart
-    Add Summary of data to the top of the app
-    Drop rows on tweets for timestamps out of stock time range, or adjust x-axis range
-    For tweets, plot count of tweets per minute?
-    Scatter log follower count vs stock price?
-    Histogram or bars instead of line for log_follower_count grouped by
-    Input for size of round, 5 Min, 10 Min, etc
+    Other scatter charts?
+    Add processing time logs for functions and loops; and app launch
 """
 import pandas as pd
 import dash
@@ -64,7 +60,7 @@ stamp_name = '4. timestamp'
 
 # Header names
 header_names = {'1. symbol':'sym',
-                '2. price':'$', 
+                '2. price':'price_str', 
                 '3. volume':'vol'}
 
 '''Build Dataframes from json files'''
@@ -88,9 +84,13 @@ def buildDF(base_dir, data_dir, json_col):
                 df = json_normalize(data, json_col)
                 count_files += 1
             else:
-                df_temp = json_normalize(data, json_col)
-                df = df.append(df_temp, ignore_index=True)
-                count_files += 1
+                try:
+                    df_temp = json_normalize(data, json_col)
+                    df = df.append(df_temp, ignore_index=True)
+                    count_files += 1
+                except:
+                    print(file, 'normalize failed')
+                    continue
     return df
 
 '''Dataframe pre-processing'''
@@ -106,10 +106,15 @@ def transDF(df, stamp, header, names):
     df['stamp'] = pd.to_datetime(df[stamp])
     df['date'] = df['stamp'].dt.date
     df['time'] = df['stamp'].dt.time
+    # Drop original timestamp column
+    df.drop([stamp], axis=1, inplace=True)
     # Set dataframe index
     df.set_index(['date', 'time'], inplace=True)
     # Rename columns
     df.rename(columns=header, inplace=True)
+    # dtype change for price
+    df['price'] = pd.to_numeric(df['price_str'])
+    df.drop(['price_str'], axis=1, inplace=True)
     # Drop duplicates
     df.drop_duplicates(inplace=True)
     # Sort Index
@@ -150,6 +155,11 @@ dft = buildDFbis(home_dir, tweet_dir)
 dfss = transDF(dfs, stamp_name, header_names, stock_names)
 
 ''' Additional Transformations '''
+# Length of data
+stock_len = len(dfs)
+tweet_len = len(dft)
+summary_one = ('Summary: ', str(stock_len), ' Stock data points collected. ', 
+               str(tweet_len), ' Tweets processed.')
 # Min and max timestamps on stock data
 stock_hr_min = dfss.index.get_level_values('time').min()
 stock_hr_max = dfss.index.get_level_values('time').max()
@@ -178,47 +188,88 @@ app.layout = html.Div([
             
             html.H3('Big Data Project, Data Visualization'), 
             
+            html.P(summary_one),
+            
             html.Div(
                 [
                     html.P('Select Stock(s):'),
                     dcc.Dropdown(
                                 id='stock_selection',
                                 options=[{'label':i, 'value':i} for i in available_stocks],
-                                value=[available_stocks[0]],
+                                value=[available_stocks[2]],
                                 multi=True
                                     )
                     ],
-                    style={'width':'60%'},
+                    style={'width':'50%', 'display':'inline-block'},
                     className='row'
                             ),
-    
+            
             html.Div(
                 [
-                    html.P('Select Hashtag(s):'),
-                    dcc.Dropdown(
-                                id='tag_selection',
-                                options=[{'label':i, 'value':i} for i in available_tags],
-                                value=[available_tags[0]],
-                                multi=True
-                                    )
+                    html.P(''),
                     ],
-                    style={'width':'45%', 'display':'inline-block'},
+                    style={'width':'5%', 'display':'inline-block'},
                     className='row'
                             ),
-    
+                
             html.Div(
                 [
                     html.P('Select Date:'),
                     dcc.Dropdown(
                                 id='date_selection',
                                 options=[{'label':i, 'value':i} for i in available_dates],
-                                value=[],
+                                value=available_dates[-3],
                                 multi=False
                                     ),
                     ],
                     style={'width':'15%', 'display':'inline-block'}),
+    
+            html.Div(
+                [
+                    html.P('Select Twitter Hashtag(s):'),
+                    dcc.Dropdown(
+                                id='tag_selection',
+                                options=[{'label':i, 'value':i} for i in available_tags],
+                                value=['tesla'],
+                                multi=True
+                                    )
+                    ],
+                    style={'width':'35%', 'display':'inline-block'},
+                    className='row'
+                            ),
             
-            html.Div([dcc.Graph(id='stock_graph')]), 
+            html.Div(
+                [
+                    html.P(''),
+                    ],
+                    style={'width':'5%', 'display':'inline-block'},
+                    className='row'
+                            ),
+                        
+            html.Div(
+                [
+                    html.P('Tweet Aggregation:'),
+                    dcc.Slider(
+                            id='twagg_selection',
+                            min=1,
+                            max=30,
+                            step=None,
+                            marks={
+                                    1: '1 Min',
+                                    5: '5 Min',
+                                    10: '10 Min',
+                                    15: '15 Min',
+                                    30: '30 Min'
+                                            },
+                            value=5
+                                )
+                        ],
+                        style={'width':'30%', 'display':'inline-block'}),
+            
+            html.Div([dcc.Graph(
+                                id='stock_graph',
+                                style={'height': '60vh'})
+                                ]), 
             
                 ])
             ])
@@ -232,24 +283,28 @@ app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/brPBPO.css"
         Output(component_id='stock_graph', component_property='figure'),
         [Input(component_id='stock_selection', component_property='value'),
          Input(component_id='date_selection', component_property='value'),
-         Input(component_id='tag_selection', component_property='value')
+         Input(component_id='tag_selection', component_property='value'),
+         Input(component_id='twagg_selection', component_property='value')
          ],
         )
 
-def update_stock_graph(stock_sel, date_sel, tag_sel):
+def update_stock_graph(stock_sel, date_sel, tag_sel, twagg_sel):
+    # Parse Tweet aggregation
+    twagg = str(twagg_sel) + 'Min'
     # List of traces
     traces = []
     # Reduce the dataframe to the day selected
     df_day = dfss.loc[date_sel]
     dft_day = dft.loc[date_sel]
     # Round time to aggregate tweets
-    dft_day['stamp_round'] = dft_day.stamp.dt.round('1Min')
+    dft_day['stamp_round'] = dft_day.stamp.dt.round(twagg)
     # Loop the available stocks to produce a trace for each stock
     for i in range(len(stock_sel)):
         df_stock = df_day[df_day['sym'] == stock_sel[i]]
         #X = df_stock.index.get_level_values('time') # Get from multiindex
         X = df_stock['stamp']
-        Y = df_stock['$']
+        Y = df_stock['price']
+        #Y_mean = Y.mean()
         # Create an individual trace
         trace = go.Scatter(x = X,
                            y = Y,
@@ -260,37 +315,47 @@ def update_stock_graph(stock_sel, date_sel, tag_sel):
     
     # Loop the available tags to produce a trace for each tag
     for i in range(len(tag_sel)):
+        # Filter dataframe for selected hashtag
         df_tweet = dft_day[dft_day['hashtag'] == tag_sel[i]]
         
+        # Get total number of tweets
+        cnt_sum = df_tweet.cnt.sum()
+        print(cnt_sum)
+        
+        # Bar chart data
         Y_tweet = df_tweet.groupby(['stamp_round'])['log_followers_count'].sum()
         X_tweet = Y_tweet.index
         
         # Create an individual trace
         trace_tweet = go.Bar(x = X_tweet,
-                                 y = Y_tweet,
-                                 name = tag_sel[i],
-                                 opacity=0.5,
-                                 yaxis='y2')
+                             y = Y_tweet,
+                             name = tag_sel[i],
+                             opacity=0.5,
+                             yaxis='y2')
         # Append to the list of traces
         traces.append(trace_tweet)
         
-    title_stock = 'Stock Price & Tweets'
+    #title_stock = 'Mean Stock Price: ' + str(Y_mean) + '\n' + '#  of Tweets: ' + str(cnt_sum) 
+    title_stock = 'Stock Price & Twitter'
     
     stock_fig = {'data':traces,
                  'layout': go.Layout(title=title_stock,
-                           xaxis=dict(title='Timestamp (Hour)',
-                                      type='date',
-                                      tickmode='auto',
-                                      nticks=12,
-                                      tickformat='%H:%M'
-                                          ),
-                           yaxis=dict(title='Price'),
-                           yaxis2=dict(title='Log Follower count',
-                                       overlaying='y',
-                                       side='right'
-                                           ),
-                           hovermode='closest')
-                    }
+                                     xaxis=dict(title='Timestamp (Hour)',
+                                                type='date',
+                                                tickmode='auto',
+                                                nticks=12,
+                                                tickformat='%H:%M'
+                                                    ),
+                                     yaxis=dict(title='Price'),
+                                     yaxis2=dict(title='Tweet Log Follower Count',
+                                                 overlaying='y',
+                                                 showline=False,
+                                                 showgrid=False,
+                                                 side='right'
+                                                     ),
+                                     hovermode='closest'
+                                         )
+                            }
 
     return stock_fig
 
