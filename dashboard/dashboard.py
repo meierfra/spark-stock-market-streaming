@@ -27,7 +27,12 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
+import plotly
 import datetime as dt
+
+''' Version '''
+print('plotly ', plotly.__version__)
+print('pandas ', pd.__version__)
 
 '''Directories and Files'''
 # Windows workstation
@@ -76,6 +81,7 @@ def buildDF(base_dir, data_dir, json_col):
     folder = os.path.join(base_dir + data_dir)
     files = os.listdir(folder)
     count_files = 0
+    print('Loading json files...')
     for file in files:
         file_path = os.path.join(folder + file)
         with open(file_path) as data_file:
@@ -91,6 +97,7 @@ def buildDF(base_dir, data_dir, json_col):
                 except:
                     print(file, 'normalize failed')
                     continue
+    print(count_files, ' json files read')
     return df
 
 '''Dataframe pre-processing'''
@@ -183,10 +190,19 @@ app = dash.Dash()
 app.layout = html.Div([
         
         html.Div([
-                
-            html.H2('ZHAW, CAS Machine Intelligence'),
             
-            html.H3('Big Data Project, Data Visualization'), 
+            html.Div([dcc.Markdown(
+                '''
+                ### ZHAW, CAS Machine Intelligence
+                Data Visualization,
+                [Big Data Project](https://github.com/meierfra/spark-stock-market-streaming).
+                '''.replace('  ', ''),
+                className='eight columns offset-by-two'
+                        )
+                    ],
+                className='row',
+                style={'text-align': 'center', 'margin-bottom': '15px'}
+                    ),
             
             html.P(summary_one),
             
@@ -196,7 +212,7 @@ app.layout = html.Div([
                     dcc.Dropdown(
                                 id='stock_selection',
                                 options=[{'label':i, 'value':i} for i in available_stocks],
-                                value=[available_stocks[2]],
+                                value=[],
                                 multi=True
                                     )
                     ],
@@ -218,7 +234,7 @@ app.layout = html.Div([
                     dcc.Dropdown(
                                 id='date_selection',
                                 options=[{'label':i, 'value':i} for i in available_dates],
-                                value=available_dates[-3],
+                                value=available_dates[-1],
                                 multi=False
                                     ),
                     ],
@@ -230,7 +246,7 @@ app.layout = html.Div([
                     dcc.Dropdown(
                                 id='tag_selection',
                                 options=[{'label':i, 'value':i} for i in available_tags],
-                                value=['tesla'],
+                                value=[],
                                 multi=True
                                     )
                     ],
@@ -271,13 +287,29 @@ app.layout = html.Div([
                                 style={'height': '60vh'})
                                 ]), 
             
+            html.Div([dcc.Markdown(
+                id='markdown_below',
+                className='eight columns offset-by-two'
+                        )
+                    ],
+                className='row',
+                style={'text-align': 'center', 'margin-bottom': '15px'}
+                    ),
                 ])
             ])
 
-# Dash CSS
-app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
-# Loading screen CSS
-app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/brPBPO.css"})
+app.css.append_css({
+    'external_url': (
+        'https://cdn.rawgit.com/chriddyp/0247653a7c52feb4c48437e1c1837f75'
+        '/raw/a68333b876edaf62df2efa7bac0e9b3613258851/dash.css'
+    )
+})
+
+if 'DYNO' in os.environ:
+    app.scripts.append_script({
+        'external_url': 'https://cdn.rawgit.com/chriddyp/ca0d8f02a1659981a0ea7f013a378bbd/raw/e79f3f789517deec58f41251f7dbb6bee72c44ab/plotly_ga.js'  # noqa: E501
+    })
+
 
 @app.callback(
         Output(component_id='stock_graph', component_property='figure'),
@@ -289,6 +321,12 @@ app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/brPBPO.css"
         )
 
 def update_stock_graph(stock_sel, date_sel, tag_sel, twagg_sel):
+    print('update_stock_graph function input:')
+    print('stock_selection: ', stock_sel, type(stock_sel))
+    print('date_selection: ', date_sel, type(date_sel))
+    print('tag_selection: ', tag_sel, type(tag_sel))
+    print('twagg_selection: ', twagg_sel, type(twagg_sel))
+    print('---------------------------------')
     # Parse Tweet aggregation
     twagg = str(twagg_sel) + 'Min'
     # List of traces
@@ -304,6 +342,8 @@ def update_stock_graph(stock_sel, date_sel, tag_sel, twagg_sel):
         #X = df_stock.index.get_level_values('time') # Get from multiindex
         X = df_stock['stamp']
         Y = df_stock['price']
+        #Y_max = Y.max()
+        #Y_max_xloc = X[Y == Y.max()]
         #Y_mean = Y.mean()
         # Create an individual trace
         trace = go.Scatter(x = X,
@@ -319,12 +359,12 @@ def update_stock_graph(stock_sel, date_sel, tag_sel, twagg_sel):
         df_tweet = dft_day[dft_day['hashtag'] == tag_sel[i]]
         
         # Get total number of tweets
-        cnt_sum = df_tweet.cnt.sum()
-        print(cnt_sum)
+        #cnt_sum = df_tweet.cnt.sum()
         
         # Bar chart data
         Y_tweet = df_tweet.groupby(['stamp_round'])['log_followers_count'].sum()
         X_tweet = Y_tweet.index
+        #Y_max_tweet = Y_tweet.max()
         
         # Create an individual trace
         trace_tweet = go.Bar(x = X_tweet,
@@ -337,6 +377,32 @@ def update_stock_graph(stock_sel, date_sel, tag_sel, twagg_sel):
         
     #title_stock = 'Mean Stock Price: ' + str(Y_mean) + '\n' + '#  of Tweets: ' + str(cnt_sum) 
     title_stock = 'Stock Price & Twitter'
+    
+    # TESLA annotation - placing is not optimal
+    tesla_note = 'Layoff announcement!'
+    if stock_sel == ['TESLA, (TSLA)'] and date_sel == '2018-06-12':
+        note = [dict(x='2018-06-12 12:50:00',
+                     y=360,
+                     xref='x',
+                     yref='y',
+                     text=tesla_note,
+                     showarrow=True,
+                     font=dict(
+                             family='Courier New, monospace',
+                             size=12,
+                             color='#234481'
+                                 ),
+                     align='center',
+                     arrowhead=2,
+                     arrowsize=1,
+                     arrowwidth=2,
+                     arrowcolor='#636363',
+                     ax=20,
+                     ay=-30,
+                         )
+                    ]
+    else:
+        note = []
     
     stock_fig = {'data':traces,
                  'layout': go.Layout(title=title_stock,
@@ -358,6 +424,25 @@ def update_stock_graph(stock_sel, date_sel, tag_sel, twagg_sel):
                             }
 
     return stock_fig
+
+@app.callback(
+        Output(component_id='markdown_below', component_property='children'),
+        [Input(component_id='stock_selection', component_property='value'),
+         Input(component_id='date_selection', component_property='value')
+         ],
+        )
+
+def update_markdown(stock_sel, date_sel):
+    if stock_sel == ['TESLA, (TSLA)'] and date_sel == '2018-06-12':
+        markdown_text = '''
+                        Tesla's CEO Elon Musk made a layoff  
+                        [announcement](https://www.cnbc.com/2018/06/12/tesla-to-cut-about-9-percent-of-jobs-across-company-report.html).
+                        on June 12th, 2018 around noon.
+                        '''.replace('  ', ''),
+    else:
+        markdown_text = ''
+    
+    return markdown_text
 
 if __name__ == '__main__':
     app.run_server(debug=True)
