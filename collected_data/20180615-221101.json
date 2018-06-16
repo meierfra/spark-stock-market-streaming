@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "357.9700",
+            "3. volume": "10319883",
+            "4. timestamp": "2018-06-15 16:00:00"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "189.0700",
+            "3. volume": "59275344",
+            "4. timestamp": "2018-06-15 16:03:09"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "100.1500",
+            "3. volume": "64557909",
+            "4. timestamp": "2018-06-15 16:08:59"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.4400",
+            "3. volume": "7047339",
+            "4. timestamp": "2018-06-15 16:04:33"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "75.8350",
+            "3. volume": "10259312",
+            "4. timestamp": "2018-06-15 16:04:17"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.3550",
+            "3. volume": "43274820",
+            "4. timestamp": "2018-06-15 16:01:52"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "195.8100",
+            "3. volume": "21303762",
+            "4. timestamp": "2018-06-15 16:10:44"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1159.2500",
+            "3. volume": "2162151",
+            "4. timestamp": "2018-06-15 16:01:04"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "231.9400",
+            "3. volume": "4666857",
+            "4. timestamp": "2018-06-15 16:01:58"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "310.2000",
+            "3. volume": "1681019",
+            "4. timestamp": "2018-06-15 16:04:25"
+        }
+    ]
+}
