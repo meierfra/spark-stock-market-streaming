@@ -195,7 +195,8 @@ app.layout = html.Div([
                 '''
                 ### ZHAW, CAS Machine Intelligence
                 Data Visualization,
-                [Big Data Project](https://github.com/meierfra/spark-stock-market-streaming).
+                [Big Data Project](https://github.com/meierfra/spark-stock-market-streaming),
+                June 2018, R. Marfurt, G. Lopez, F. Meier, G. Laios
                 '''.replace('  ', ''),
                 className='eight columns offset-by-two'
                         )
