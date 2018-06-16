@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "353.7500",
+            "3. volume": "990663",
+            "4. timestamp": "2018-06-15 09:37:59"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "189.4100",
+            "3. volume": "9059116",
+            "4. timestamp": "2018-06-15 09:37:59"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "100.8200",
+            "3. volume": "13283771",
+            "4. timestamp": "2018-06-15 09:37:59"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.4100",
+            "3. volume": "1659154",
+            "4. timestamp": "2018-06-15 09:37:59"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "74.5900",
+            "3. volume": "2083112",
+            "4. timestamp": "2018-06-15 09:37:59"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.3100",
+            "3. volume": "6417808",
+            "4. timestamp": "2018-06-15 09:37:55"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "195.4300",
+            "3. volume": "4620990",
+            "4. timestamp": "2018-06-15 09:37:59"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1157.1600",
+            "3. volume": "606417",
+            "4. timestamp": "2018-06-15 09:37:59"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "231.5950",
+            "3. volume": "1336734",
+            "4. timestamp": "2018-06-15 09:37:04"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "308.0000",
+            "3. volume": "297119",
+            "4. timestamp": "2018-06-15 09:37:57"
+        }
+    ]
+}

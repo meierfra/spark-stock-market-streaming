@@ -1,0 +1,69 @@
+{
+    "Meta Data": {
+        "1. Information": "Batch Stock Market Quotes",
+        "2. Notes": "IEX Real-Time Price provided for free by IEX (https://iextrading.com/developer/).",
+        "3. Time Zone": "US/Eastern"
+    },
+    "Stock Quotes": [
+        {
+            "1. symbol": "TSLA",
+            "2. price": "359.0900",
+            "3. volume": "9924451",
+            "4. timestamp": "2018-06-15 15:54:30"
+        },
+        {
+            "1. symbol": "AAPL",
+            "2. price": "188.5800",
+            "3. volume": "31035370",
+            "4. timestamp": "2018-06-15 15:54:31"
+        },
+        {
+            "1. symbol": "MSFT",
+            "2. price": "100.2300",
+            "3. volume": "33100875",
+            "4. timestamp": "2018-06-15 15:54:29"
+        },
+        {
+            "1. symbol": "MCD",
+            "2. price": "166.0100",
+            "3. volume": "4080901",
+            "4. timestamp": "2018-06-15 15:54:30"
+        },
+        {
+            "1. symbol": "NKE",
+            "2. price": "75.6650",
+            "3. volume": "6128336",
+            "4. timestamp": "2018-06-15 15:54:28"
+        },
+        {
+            "1. symbol": "PFE",
+            "2. price": "36.2800",
+            "3. volume": "24181091",
+            "4. timestamp": "2018-06-15 15:54:29"
+        },
+        {
+            "1. symbol": "FB",
+            "2. price": "195.5000",
+            "3. volume": "16027800",
+            "4. timestamp": "2018-06-15 15:54:30"
+        },
+        {
+            "1. symbol": "GOOGL",
+            "2. price": "1158.2600",
+            "3. volume": "1534746",
+            "4. timestamp": "2018-06-15 15:54:22"
+        },
+        {
+            "1. symbol": "GS",
+            "2. price": "231.8700",
+            "3. volume": "3831905",
+            "4. timestamp": "2018-06-15 15:53:32"
+        },
+        {
+            "1. symbol": "LMT",
+            "2. price": "310.0500",
+            "3. volume": "1051667",
+            "4. timestamp": "2018-06-15 15:53:33"
+        }
+    ]
+}
